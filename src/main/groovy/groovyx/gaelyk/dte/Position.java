@@ -38,11 +38,11 @@ class Position implements Positionable{
         return new Position(pos.getLineNumber(), pos.getColumnNumber());
     }
     
-    @Override public int getLineNumber() {
+    public int getLineNumber() {
         return line;
     }
     
-    @Override public int getColumnNumber() {
+    public int getColumnNumber() {
         return column;
     }
     

@@ -49,7 +49,7 @@ class DebuggableTemplate implements Template {
                     scriptObject.run();
                     pw.flush();
                     return writer;  
-                } catch (Throwable t) {
+                } catch (RuntimeException t) {
                     StackTraceElement[] elems = t.getStackTrace();
                     
                     StackTraceElement updated = null;

@@ -22,7 +22,7 @@ class DebuggableStringWriter extends StringWriter implements Positionable {
     private int                     columnNumber = 0;
     private boolean                 wasNewLine   = true;
 
-    private Map<Position, Position> positionsMap = new LinkedHashMap<>();
+    private Map<Position, Position> positionsMap = new LinkedHashMap<Position, Position>();
     private final Positionable      positionable;
 
     public DebuggableStringWriter(Positionable positionable) {
@@ -92,11 +92,11 @@ class DebuggableStringWriter extends StringWriter implements Positionable {
         throw new UnsupportedOperationException("Only write(char|String|char[]) is supported");
     }
 
-    @Override public int getColumnNumber() {
+    public int getColumnNumber() {
         return columnNumber;
     }
 
-    @Override public int getLineNumber() {
+    public int getLineNumber() {
         return lineNumber;
     }
     

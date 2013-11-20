@@ -47,7 +47,7 @@ public class TemplateParsingException extends RuntimeException {
         String[] sourceLines = getTemplateSource().split("\n");
         String[] scriptLines = getParsedScript().split("\n");
         
-        List<String> details = new ArrayList<>();
+        List<String> details = new ArrayList<String>();
         for (Message message : ((List<Message>) ((MultipleCompilationErrorsException) getCause()).getErrorCollector().getErrors())) {
             if (!(message instanceof SyntaxErrorMessage)) {
                 continue;
@@ -64,7 +64,7 @@ public class TemplateParsingException extends RuntimeException {
     }
     
     private List<String> collectCompilationErrorDetail(String[] sourceLines, String errorMessage, Position startPosition) {
-        List<String> details = new ArrayList<>();
+        List<String> details = new ArrayList<String>();
         details.add("");
         details.add(errorMessage);
         details.add("");
