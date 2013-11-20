@@ -5,7 +5,7 @@ package groovyx.gaelyk.util;
  * @author Vladimir Orany
  *
  */
-public interface Positionable {
+interface Positionable {
 
     /**
      * Returns current line number.

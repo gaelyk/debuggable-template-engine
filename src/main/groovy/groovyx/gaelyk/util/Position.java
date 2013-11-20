@@ -5,7 +5,7 @@ package groovyx.gaelyk.util;
  * @author ladin
  *
  */
-public class Position implements Positionable{
+class Position implements Positionable{
     
     public static final Position NOT_FOUND = new Position(0, 0);
 

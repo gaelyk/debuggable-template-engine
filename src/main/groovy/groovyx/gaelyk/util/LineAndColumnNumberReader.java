@@ -15,7 +15,7 @@ import java.io.Reader;
  * 
  * @author Vladimir Orany
  */
-public class LineAndColumnNumberReader extends LineNumberReader implements Positionable {
+class LineAndColumnNumberReader extends LineNumberReader implements Positionable {
 
     private int columnNumber = 1;
     private int markedColumnNumber = 0;

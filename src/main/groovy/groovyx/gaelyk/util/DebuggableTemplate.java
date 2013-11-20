@@ -14,14 +14,13 @@ import java.util.Map;
 
 import org.codehaus.groovy.runtime.InvokerHelper;
 
-public class DebuggableTemplate implements Template {
+class DebuggableTemplate implements Template {
 
     DebuggableTemplate(){
         // disallow creation outside this package
     }
     
     private Script script;
-    private String source;
     private Map<Position, Position> positionsMap;
 
     public Writable make() {
@@ -129,7 +128,7 @@ public class DebuggableTemplate implements Template {
         }
         endScript(sw);
         positionsMap = sw.getPositionsMap();
-        return source = sw.toString();
+        return sw.toString();
     }
 
     private void startScript(StringWriter sw) {
@@ -209,24 +208,10 @@ public class DebuggableTemplate implements Template {
     }
     
     /**
-     * Returns the source of the generated script.
-     * 
-     * {@link #parse(Reader)} must be called before this method.
-     * 
-     * @return the source of the generated script
-     */
-    public String getSource() {
-        if (source == null) {
-            throw new IllegalStateException("Parse method hasn't been called yet!");
-        }
-        return source;
-    }
-    
-    /**
      * Returns map translating compiled positions into the original ones.
      * @return map translating compiled positions into the original ones
      */
-    public Map<Position, Position> getPositionsMap() {
+    Map<Position, Position> getPositionsMap() {
         if (positionsMap == null) {
             throw new IllegalStateException("Parse method hasn't been called yet!");
         }

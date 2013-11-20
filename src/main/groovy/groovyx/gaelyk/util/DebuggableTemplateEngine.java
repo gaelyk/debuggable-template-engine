@@ -22,9 +22,11 @@ import groovy.text.TemplateEngine;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.MultipleCompilationErrorsException;
+import org.codehaus.groovy.runtime.IOGroovyMethods;
 
 /**
  * {@link DebuggableTemplateEngine} is variation on {@link SimpleTemplateEngine}
@@ -115,7 +117,8 @@ public class DebuggableTemplateEngine extends TemplateEngine {
 
     public DebuggableTemplate createTemplate(Reader reader) throws CompilationFailedException, IOException {
         DebuggableTemplate template = new DebuggableTemplate();
-        String script = template.parse(reader);
+        String text = IOGroovyMethods.getText(reader);
+        String script = template.parse(new StringReader(text));
         if (verbose) {
             System.out.println("\n-- script source --");
             System.out.print(script);
@@ -124,7 +127,7 @@ public class DebuggableTemplateEngine extends TemplateEngine {
         try {
             template.setScript(groovyShell.parse(script, "SimpleTemplateScript" + counter++ + ".groovy"));
         } catch (MultipleCompilationErrorsException e) {
-            throw new TemplateMultipleCompilationErrorsException(template, e);
+            throw new TemplateParsingException(text, script, template.getPositionsMap(), e);
         } catch (Exception e) {
             throw new GroovyRuntimeException("Failed to parse template script (your template may contain an error or be trying to use expressions not currently supported): " + e.getMessage());
         }

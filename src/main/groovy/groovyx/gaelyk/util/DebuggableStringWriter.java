@@ -16,7 +16,7 @@ import java.util.Map;
  * 
  * @author Vladimir Orany
  */
-public class DebuggableStringWriter extends StringWriter implements Positionable {
+class DebuggableStringWriter extends StringWriter implements Positionable {
 
     private int                     lineNumber   = 0;
     private int                     columnNumber = 0;
