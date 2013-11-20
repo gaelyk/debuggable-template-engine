@@ -1,4 +1,4 @@
-package groovyx.gaelyk.util;
+package groovyx.gaelyk.dte;
 
 /**
  * Iterface for objects which are able to tell its current line and column number.

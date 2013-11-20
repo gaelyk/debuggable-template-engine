@@ -1,5 +1,8 @@
-package groovyx.gaelyk.util
+package groovyx.gaelyk.dte
 
+import groovyx.gaelyk.dte.DebuggableStringWriter;
+import groovyx.gaelyk.dte.Position;
+import groovyx.gaelyk.dte.Positionable;
 import spock.lang.Specification
 
 class DebuggableStringWriterSpec extends Specification {

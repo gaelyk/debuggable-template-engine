@@ -1,4 +1,8 @@
-package groovyx.gaelyk.util
+package groovyx.gaelyk.dte
+
+import groovyx.gaelyk.dte.DebuggableTemplateEngine;
+import groovyx.gaelyk.dte.Position;
+import groovyx.gaelyk.dte.TemplateParsingException;
 
 import org.codehaus.groovy.control.messages.SyntaxErrorMessage;
 import org.codehaus.groovy.syntax.SyntaxException;

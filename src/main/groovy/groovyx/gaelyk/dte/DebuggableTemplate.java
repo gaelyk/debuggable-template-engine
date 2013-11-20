@@ -1,4 +1,4 @@
-package groovyx.gaelyk.util;
+package groovyx.gaelyk.dte;
 
 import groovy.lang.Binding;
 import groovy.lang.Script;

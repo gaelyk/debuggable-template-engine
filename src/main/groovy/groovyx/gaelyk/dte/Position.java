@@ -1,4 +1,4 @@
-package groovyx.gaelyk.util;
+package groovyx.gaelyk.dte;
 
 /**
  * Line and column position

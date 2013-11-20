@@ -1,4 +1,4 @@
-package groovyx.gaelyk.util;
+package groovyx.gaelyk.dte;
 
 import java.io.IOException;
 import java.io.LineNumberReader;

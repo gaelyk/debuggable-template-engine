@@ -1,5 +1,6 @@
-package groovyx.gaelyk.util
+package groovyx.gaelyk.dte
 
+import groovyx.gaelyk.dte.LineAndColumnNumberReader;
 import spock.lang.Specification
 
 class LineAndColumnNumberReaderSpec extends Specification {
