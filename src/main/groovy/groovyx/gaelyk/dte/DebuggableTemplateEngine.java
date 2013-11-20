@@ -18,14 +18,18 @@ package groovyx.gaelyk.dte;
 import groovy.lang.GroovyRuntimeException;
 import groovy.lang.GroovyShell;
 import groovy.text.SimpleTemplateEngine;
+import groovy.text.Template;
 import groovy.text.TemplateEngine;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.MultipleCompilationErrorsException;
+import org.codehaus.groovy.runtime.DefaultGroovyMethodsSupport;
 import org.codehaus.groovy.runtime.IOGroovyMethods;
 
 /**
@@ -115,7 +119,20 @@ public class DebuggableTemplateEngine extends TemplateEngine {
         this.groovyShell = groovyShell;
     }
 
+    @Override public Template createTemplate(File file) throws CompilationFailedException, ClassNotFoundException, IOException {
+        Reader reader = new FileReader(file);
+        try {
+            return createTemplate(reader, file.getName());
+        } finally {
+            DefaultGroovyMethodsSupport.closeWithWarning(reader);
+        }
+    }
+    
     public DebuggableTemplate createTemplate(Reader reader) throws CompilationFailedException, IOException {
+        return createTemplate(reader, "DebuggableTemplateScript" + counter++ + ".groovy");
+    }
+    
+    public DebuggableTemplate createTemplate(Reader reader, String fileName) throws CompilationFailedException, IOException {
         DebuggableTemplate template = new DebuggableTemplate();
         String text = IOGroovyMethods.getText(reader);
         String script = template.parse(new StringReader(text));
@@ -125,7 +142,8 @@ public class DebuggableTemplateEngine extends TemplateEngine {
             System.out.println("\n-- script end --\n");
         }
         try {
-            template.setScript(groovyShell.parse(script, "SimpleTemplateScript" + counter++ + ".groovy"));
+            template.setFileName(fileName);
+            template.setScript(groovyShell.parse(script, fileName));
         } catch (MultipleCompilationErrorsException e) {
             throw new TemplateParsingException(text, script, template.getPositionsMap(), e);
         } catch (Exception e) {

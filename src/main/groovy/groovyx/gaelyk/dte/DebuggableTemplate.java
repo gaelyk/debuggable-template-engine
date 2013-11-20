@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.codehaus.groovy.runtime.InvokerHelper;
@@ -21,6 +22,7 @@ class DebuggableTemplate implements Template {
     }
     
     private Script script;
+    private String fileName;
     private Map<Position, Position> positionsMap;
 
     public Writable make() {
@@ -35,17 +37,44 @@ class DebuggableTemplate implements Template {
              * @see groovy.lang.Writable#writeTo(java.io.Writer)
              */
             public Writer writeTo(Writer writer) {
-                Binding binding;
-                if (map == null)
-                    binding = new Binding();
-                else
-                    binding = new Binding(map);
-                Script scriptObject = InvokerHelper.createScript(script.getClass(), binding);
-                PrintWriter pw = new PrintWriter(writer);
-                scriptObject.setProperty("out", pw);
-                scriptObject.run();
-                pw.flush();
-                return writer;
+                try {
+                    Binding binding;
+                    if (map == null)
+                        binding = new Binding();
+                    else
+                        binding = new Binding(map);
+                    Script scriptObject = InvokerHelper.createScript(script.getClass(), binding);
+                    PrintWriter pw = new PrintWriter(writer);
+                    scriptObject.setProperty("out", pw);
+                    scriptObject.run();
+                    pw.flush();
+                    return writer;  
+                } catch (Throwable t) {
+                    StackTraceElement[] elems = t.getStackTrace();
+                    
+                    StackTraceElement updated = null;
+                    int updateIndex = -1;
+                    
+                    for (int i = 0; i < elems.length; i++) {
+                        StackTraceElement elem = elems[i];
+                        if (elem.getFileName().equals(fileName)) {
+                            updated = elem;
+                            updateIndex = i;
+                            break;
+                        }
+                    }
+                    
+                    if (updated != null && updateIndex >= 0) {
+                        Position pos = positionsMap.get(Position.at(updated.getLineNumber(), 1));
+                        updated = new StackTraceElement(updated.getClassName(), updated.getMethodName(), updated.getFileName(), pos.getLineNumber());
+                        elems[updateIndex] = updated;
+                    }
+                    
+                    t.setStackTrace(elems);
+                    
+                    throw t;
+                }
+
             }
 
             /**
@@ -232,6 +261,14 @@ class DebuggableTemplate implements Template {
      */
     Script getScript() {
         return script;
+    }
+
+    /**
+     * Sets the class name of this template.
+     * @param className class name of this template
+     */
+    void setFileName(String className) {
+        this.fileName = className;
     }
 
 }
