@@ -42,15 +42,15 @@ out.print("""""");
         SyntaxException semsg = e.cause.errorCollector.errors[0].cause
         
         then:
-        e.positionsMap[Position.at(semsg.startLine, semsg.startColumn)] == Position.at(3, 24)
-        e.positionsMap[Position.at(semsg.endLine, semsg.endColumn)]     == Position.at(3, 24)
+        e.positionsMap[Position.at(semsg.startLine, semsg.startColumn)] == Position.at(3, 23)
+        e.positionsMap[Position.at(semsg.endLine, semsg.endColumn)]     == Position.at(3, 23)
         e.message == '''
 unexpected token: ;
 
 1   :
 2   :        Hello world!
 3   :        <% if (true) %>
-=   :                       ^
+=   :                      ^
 4   :        This will fail due missing opening bracket!
 5   :        <% } %>
 

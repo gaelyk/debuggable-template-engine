@@ -17,7 +17,7 @@ import java.io.Reader;
  */
 class LineAndColumnNumberReader extends LineNumberReader implements Positionable {
 
-    private int columnNumber = 1;
+    private int columnNumber = 0;
     private int markedColumnNumber = 0;
 
     /**
@@ -95,7 +95,7 @@ class LineAndColumnNumberReader extends LineNumberReader implements Positionable
                 if (origLineNumber == newLineNumber) {
                     columnNumber++;
                 } else {
-                    columnNumber = 1;
+                    columnNumber = 0;
                 }
             }
             return c;

@@ -9,26 +9,26 @@ class LineAndColumnNumberReaderSpec extends Specification {
     LineAndColumnNumberReader reader = new LineAndColumnNumberReader(source)
     
     def "On read the column number increses and get reset on the new line"() {
-        expect: "the line number to be one at the beginning "
-        reader.columnNumber == 1
+        expect: "the column number to be zero at the beginning "
+        reader.columnNumber == 0
         
         when: "one char is read"
         reader.read()
         
         then: "the column number increased by one"
-        reader.columnNumber == 2
+        reader.columnNumber == 1
         
         when: "we get to the next line"
         22.times { reader.read() }
         
-        then: "the column number resets back to one"
-        reader.columnNumber == 1
+        then: "the column number resets back to zero"
+        reader.columnNumber == 0
         
         when: "we read next char on the next line"
         reader.read()
         
         then: "the column number starts increasing again"
-        reader.columnNumber == 2
+        reader.columnNumber == 1
     }
     
     def "Mark and reset method should be supported to allow look ahead"() {
